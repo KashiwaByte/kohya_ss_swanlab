@@ -13,7 +13,7 @@ tensorboard_proc = None
 TENSORBOARD = 'tensorboard'
 
 # Set the default tensorboard portW
-DEFAULT_TENSORBOARD_PORT = 6006
+DEFAULT_TENSORBOARD_PORT = 9999
 
 def start_tensorboard(headless, logging_dir, wait_time=5):
     global tensorboard_proc
