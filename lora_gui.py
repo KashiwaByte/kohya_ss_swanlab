@@ -1820,6 +1820,25 @@ def lora_tab(
             show_progress=False,
         )
 
+        # Setup gradio swanlab buttons
+        (
+            button_start_swanlab,
+            button_stop_swanlab,
+        ) = gradio_swanlab()
+
+        button_start_swanlab.click(
+            start_swanlab,
+            inputs=[dummy_headless, folders.logging_dir],
+            show_progress=False,
+        )
+
+        button_stop_swanlab.click(
+            stop_swanlab,
+            show_progress=False,
+        )
+        
+        
+        
         settings_list = [
             source_model.pretrained_model_name_or_path,
             source_model.v2,
