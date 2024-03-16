@@ -31,6 +31,11 @@ from library.tensorboard_gui import (
     start_tensorboard,
     stop_tensorboard,
 )
+from library.swanlab_gui import(
+    gradio_swanlab,
+    start_swanlab,
+    stop_swanlab,
+)
 from library.utilities import utilities_tab
 from library.class_sample_images import SampleImages, run_cmd_sample
 from library.class_lora_tab import LoRATools
