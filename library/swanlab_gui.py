@@ -48,7 +48,7 @@ def start_swanlab(headless, logging_dir, wait_time=5):
     # Start background process
     log.info('Starting Swanlab on port {}'.format(swanlab_port))
     try:
-        tensorboard_proc = subprocess.Popen(run_cmd)
+        swanlab_proc = subprocess.Popen(run_cmd)
     except Exception as e:
         log.error('Failed to start Swanlab:', e)
         return
