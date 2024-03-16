@@ -48,6 +48,8 @@ from library.dataset_balancing_gui import gradio_dataset_balancing_tab
 from library.custom_logging import setup_logging
 from library.localization_ext import add_javascript
 
+import swanlab
+
 # Set up logging
 log = setup_logging()
 
@@ -559,8 +561,10 @@ def train_model(
 ):
     # Get list of function parameters and values
     parameters = list(locals().items())
+    parameters_dict = {name: value for name, value in locals().items()}
     global command_running
-
+    
+    swanlab.init(config=parameters_dict)
     print_only_bool = True if print_only.get("label") == "True" else False
     log.info(f"Start training LoRA {LoRA_type} ...")
     headless_bool = True if headless.get("label") == "True" else False
@@ -1782,62 +1786,13 @@ def lora_tab(
                     LyCORIS_preset,
                 ],
             )
+            
+      
 
-        with gr.Tab("Dataset Preparation"):
-            gr.Markdown(
-                "This section provide Dreambooth tools to help setup your dataset..."
-            )
-            gradio_dreambooth_folder_creation_tab(
-                train_data_dir_input=folders.train_data_dir,
-                reg_data_dir_input=folders.reg_data_dir,
-                output_dir_input=folders.output_dir,
-                logging_dir_input=folders.logging_dir,
-                headless=headless,
-            )
-            gradio_dataset_balancing_tab(headless=headless)
 
-        with gr.Row():
-            button_run = gr.Button("Start training", variant="primary")
 
-            button_stop_training = gr.Button("Stop training")
 
-        button_print = gr.Button("Print training command")
-
-        # Setup gradio tensorboard buttons
-        (
-            button_start_tensorboard,
-            button_stop_tensorboard,
-        ) = gradio_tensorboard()
-
-        button_start_tensorboard.click(
-            start_tensorboard,
-            inputs=[dummy_headless, folders.logging_dir],
-            show_progress=False,
-        )
-
-        button_stop_tensorboard.click(
-            stop_tensorboard,
-            show_progress=False,
-        )
-
-        # Setup gradio swanlab buttons
-        (
-            button_start_swanlab,
-            button_stop_swanlab,
-        ) = gradio_swanlab()
-
-        button_start_swanlab.click(
-            start_swanlab,
-            inputs=[dummy_headless, folders.logging_dir],
-            show_progress=False,
-        )
-
-        button_stop_swanlab.click(
-            stop_swanlab,
-            show_progress=False,
-        )
-        
-        
+      
         
         settings_list = [
             source_model.pretrained_model_name_or_path,
@@ -1966,7 +1921,64 @@ def lora_tab(
             LyCORIS_preset,
             advanced_training.debiased_estimation_loss,
         ]
+        
 
+        with gr.Tab("Dataset Preparation"):
+            gr.Markdown(
+                "This section provide Dreambooth tools to help setup your dataset..."
+            )
+            gradio_dreambooth_folder_creation_tab(
+                train_data_dir_input=folders.train_data_dir,
+                reg_data_dir_input=folders.reg_data_dir,
+                output_dir_input=folders.output_dir,
+                logging_dir_input=folders.logging_dir,
+                headless=headless,
+            )
+            gradio_dataset_balancing_tab(headless=headless)
+
+        with gr.Row():
+            button_run = gr.Button("Start training", variant="primary")
+
+            button_stop_training = gr.Button("Stop training")
+
+        button_print = gr.Button("Print training command")
+
+        # Setup gradio tensorboard buttons
+        (
+            button_start_tensorboard,
+            button_stop_tensorboard,
+        ) = gradio_tensorboard()
+
+        button_start_tensorboard.click(
+            start_tensorboard,
+            inputs=[dummy_headless, folders.logging_dir],
+            show_progress=False,
+        )
+
+        button_stop_tensorboard.click(
+            stop_tensorboard,
+            show_progress=False,
+        )
+
+        # Setup gradio swanlab buttons
+        (
+            button_start_swanlab,
+            button_stop_swanlab,
+        ) = gradio_swanlab()
+
+        button_start_swanlab.click(
+            start_swanlab,
+            inputs=[dummy_headless, folders.logging_dir],
+            show_progress=False,
+        )
+
+        button_stop_swanlab.click(
+            stop_swanlab,
+            show_progress=False,
+        )
+        
+        
+        
         config.button_open_config.click(
             open_configuration,
             inputs=[dummy_db_true, dummy_db_false, config.config_file_name]

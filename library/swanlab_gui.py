@@ -29,7 +29,9 @@ def start_swanlab(headless, logging_dir, wait_time=5):
         log.info('Error: log folder is empty')
         msgbox(msg='Error: log folder is empty')
         return
+    
 
+    
     run_cmd = [
         SWANLAB,
         '--host',
