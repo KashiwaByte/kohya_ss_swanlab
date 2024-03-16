@@ -10,9 +10,9 @@ from library.custom_logging import setup_logging
 log = setup_logging()
 
 tensorboard_proc = None
-TENSORBOARD = 'tensorboard' if os.name == 'posix' else 'tensorboard.exe'
+TENSORBOARD = 'tensorboard'
 
-# Set the default tensorboard port
+# Set the default tensorboard portW
 DEFAULT_TENSORBOARD_PORT = 6006
 
 def start_tensorboard(headless, logging_dir, wait_time=5):
