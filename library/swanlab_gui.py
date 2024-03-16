@@ -18,7 +18,7 @@ SWANLAB = 'swanlab watch'
 DEFAULT_SWANLAB_PORT = 5092
 
 def start_swanlab(headless, logging_dir, wait_time=5):
-    global SWANLAB_proc
+    global swanlab_proc
     
     headless_bool = True if headless.get('label') == 'True' else False
 
