@@ -33,15 +33,15 @@ def start_swanlab(headless, logging_dir, wait_time=5):
     run_cmd = [
         SWANLAB,
         '-l',
-        logging_dir
+        logging_dir,
         '--port',
         str(swanlab_port),
     ]
 
     swanlab.info(run_cmd)
     if swanlab_proc is not None:
-        log.info(
-            'Tensorboard is already running. Terminating existing process before starting new one...'
+        swanlab.info(
+            'Swanlab is already running. Terminating existing process before starting new one...'
         )
         stop_swanlab()
 
