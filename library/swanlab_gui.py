@@ -12,10 +12,10 @@ import swanlab
 log = setup_logging()
 
 swanlab_proc = None
-SWANLAB = 'swanlab watch' 
+
 
 # Set the default SWANLAB port
-DEFAULT_SWANLAB_PORT = 5092
+DEFAULT_SWANLAB_PORT = 5095
 
 def start_swanlab(headless, logging_dir, wait_time=5):
     global swanlab_proc
@@ -33,7 +33,8 @@ def start_swanlab(headless, logging_dir, wait_time=5):
 
     
     run_cmd = [
-        SWANLAB,
+        'swanlab',
+        'watch',
         '-l',
         logging_dir,
         '--port',
