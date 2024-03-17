@@ -564,7 +564,7 @@ def train_model(
     parameters_dict = {name: value for name, value in locals().items()if value is not None}
     global command_running
     
-    swanlab.init(config=parameters_dict)
+    swanlab.init(config=parameters_dict,logdir=logging_dir)
     print_only_bool = True if print_only.get("label") == "True" else False
     log.info(f"Start training LoRA {LoRA_type} ...")
     headless_bool = True if headless.get("label") == "True" else False
