@@ -41,12 +41,13 @@ from library.custom_train_functions import (
     apply_debiased_estimation,
 )
 from library.utils import setup_logging, add_logging_arguments
-
+import swanlab
 setup_logging()
 import logging
 
 logger = logging.getLogger(__name__)
 
+swanlab.init()
 
 class NetworkTrainer:
     def __init__(self):
@@ -58,7 +59,7 @@ class NetworkTrainer:
         self, args: argparse.Namespace, current_loss, avr_loss, lr_scheduler, keys_scaled=None, mean_norm=None, maximum_norm=None
     ):
         logs = {"loss/current": current_loss, "loss/average": avr_loss}
-
+        swanlab.log({"avr_loss":avr_loss})
         if keys_scaled is not None:
             logs["max_norm/keys_scaled"] = keys_scaled
             logs["max_norm/average_key_norm"] = mean_norm
@@ -844,7 +845,7 @@ class NetworkTrainer:
                         loss = apply_debiased_estimation(loss, timesteps, noise_scheduler)
 
                     loss = loss.mean()  # 平均なのでbatch_sizeで割る必要なし
-
+                    swanlab.log({'loss':loss})
                     accelerator.backward(loss)
                     if accelerator.sync_gradients:
                         self.all_reduce_network(accelerator, network)  # sync DDP grad manually
@@ -890,6 +891,7 @@ class NetworkTrainer:
                 loss_recorder.add(epoch=epoch, step=step, loss=current_loss)
                 avr_loss: float = loss_recorder.moving_average
                 logs = {"avr_loss": avr_loss}  # , "lr": lr_scheduler.get_last_lr()[0]}
+                swanlab.log({'avr_loss':avr_loss})
                 progress_bar.set_postfix(**logs)
 
                 if args.scale_weight_norms:
@@ -904,6 +906,7 @@ class NetworkTrainer:
 
             if args.logging_dir is not None:
                 logs = {"loss/epoch": loss_recorder.moving_average}
+                swanlab.log({'avr_loss':avr_loss})
                 accelerator.log(logs, step=epoch + 1)
 
             accelerator.wait_for_everyone()
