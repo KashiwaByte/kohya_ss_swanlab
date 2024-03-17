@@ -561,7 +561,7 @@ def train_model(
 ):
     # Get list of function parameters and values
     parameters = list(locals().items())
-    parameters_dict = {name: value for name, value in locals().items()}
+    parameters_dict = {name: value for name, value in locals().items()if value is not None}
     global command_running
     
     swanlab.init(config=parameters_dict)

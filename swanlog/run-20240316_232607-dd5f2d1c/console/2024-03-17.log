@@ -1,0 +1,8 @@
+31 Keyboard interruption in main thread... closing server.
+32 11:02:52-750729 INFO     headless: False                                                                                
+33 11:02:52-755742 INFO     Load CSS...                                                                                    
+34 11:02:52-955809 INFO     {'server_name': '127.0.0.1'}                                                                   
+35 Running on local URL:  http://127.0.0.1:7860
+36 
+37 To create a public link, set `share=True` in `launch()`.
+
